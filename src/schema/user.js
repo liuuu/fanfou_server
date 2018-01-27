@@ -4,6 +4,7 @@ export default `
    name: String
    email: String
    token: String
+   num: Int
  }
 
  type LoginResponse {

@@ -30,11 +30,15 @@ const secrets = {
 const getUser = async (req, res, next) => {
   const token = req.headers['x-token'];
   console.log('token', token);
+  console.log(typeof token);
+  console.log(token !== 'null');
 
-  if (token) {
+  if (token !== 'null') {
     try {
+      console.log('why');
+
       const user = await jwt.verify(token, secrets.JWT_SECRET);
-      // get the userId from token
+
       console.log('user--------', user);
 
       req.user = user;

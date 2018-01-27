@@ -82,13 +82,24 @@ export default {
 
       const hash = await bcrypt.hash(password, 10);
 
+      const randomNum = Math.floor(Math.random() * 10);
+
       const newUser = await new User({
         name,
         email,
         password: hash,
+        num: randomNum,
       }).save();
 
-      newUser.token = jwt.sign({ _id: newUser._id }, secrets.JWT_SECRET);
+      newUser.token = jwt.sign(
+        {
+          _id: newUser._id,
+          name,
+          email,
+          num: newUser.num,
+        },
+        secrets.JWT_SECRET,
+      );
       newUser._id = newUser._id.toString();
 
       return {
@@ -96,8 +107,9 @@ export default {
         ok: true,
       };
     },
+
     login: async (root, { email, password }, { User }) => {
-      const user = await User.find({ email });
+      const user = await User.findOne({ email });
 
       if (!user) {
         return {
@@ -106,13 +118,26 @@ export default {
         };
       }
 
+      console.log('password', password);
+      console.log('user.password', user.password);
+      console.log('user', user);
+
       const validPassword = await bcrypt.compare(password, user.password);
       if (!validPassword) {
         throw new Error('Password is incorrect');
       }
 
-      user.token = jwt.sign({ _id: user._id }, secrets.JWT_SECRET);
+      user.token = jwt.sign(
+        {
+          _id: user._id,
+          name: user.name,
+          email,
+          num: user.num,
+        },
+        secrets.JWT_SECRET,
+      );
       user._id = user._id.toString();
+      console.log('user', user);
 
       return {
         user,

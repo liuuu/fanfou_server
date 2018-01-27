@@ -1,16 +1,22 @@
 export default `
+ type Vote {
+   userId: String
+ }
+
  type Message {
    _id: String!
   content: String!
   createdAt: String!
   userId: String!
+  owner: String!
+  votes:[Vote]
  }
 
 
 
  type Query {
    allMessages(skip: Int!): [Message]
-   message(id: String) : Message
+   message(id: String!) : Message
  }
 
  type MessageResponse {

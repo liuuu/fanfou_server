@@ -7,7 +7,7 @@ import { requireAuth } from '../permission';
 const pubsub = new PubSub();
 const NEW_MESSAGE = 'NEW_MESSAGE';
 
-const ObjectID = mongoose.Types.ObjectID;
+const ObjectId = mongoose.Types.ObjectId;
 
 export default {
   Query: {
@@ -17,6 +17,8 @@ export default {
         .skip(skip)
         .limit(2);
 
+      console.log('messages', messages);
+
       messages.forEach((m) => {
         m._id = m._id.toString();
       });
@@ -24,16 +26,22 @@ export default {
       return messages;
     },
     message: async (root, { id }, { User, Message }) => {
-      const theMessage = await Message.find({ id: ObjectID(id) });
+      const theMessage = await Message.findOne({ _id: ObjectId(id) });
       theMessage._id = theMessage._id.toString();
+      console.log('theMessage', theMessage);
+
       return theMessage;
     },
   },
   Mutation: {
     createMessage: requireAuth.createResolver(async (root, { content }, { user, Message }) => {
+      console.log('user', user);
+
       const newMessage = await new Message({
         userId: user._id,
         content,
+        votes: [],
+        owner: user.name,
       }).save();
 
       console.log('newMessage', newMessage);
