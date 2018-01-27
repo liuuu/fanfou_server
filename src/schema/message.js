@@ -14,24 +14,26 @@ export default `
 
 
 
- type Query {
-   allMessages(skip: Int!): [Message]
-   message(id: String!) : Message
- }
-
  type MessageResponse {
    ok: Boolean,
    error: String,
    message: Message
  }
 
+  type Query {
+   allMessages(skip: Int!): [Message]
+   message(_id: String!) : Message
+ }
+
 
 
  type Mutation {
     createMessage(content: String!): MessageResponse
+    createVote(_id:String!): Message
+    removeVote(_id:String!): Message
   }
 
-   type Subscription {
+ type Subscription {
     newMessageAdded(userId: String!) : Message
   }
 `;

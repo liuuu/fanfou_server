@@ -33,7 +33,7 @@ const getUser = async (req, res, next) => {
   console.log(typeof token);
   console.log(token !== 'null');
 
-  if (token !== 'null') {
+  if (token) {
     try {
       console.log('why');
 

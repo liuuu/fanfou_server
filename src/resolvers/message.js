@@ -59,6 +59,38 @@ export default {
         message: newMessage,
       };
     }),
+
+    createVote: async (root, { _id }, { Message, user }) => {
+      // https://stackoverflow.com/questions/33049707/push-items-into-mongo-array-via-mongoose
+      // Users.findOneAndUpdate({name: req.user.name}, {$push: {friends: friend}});
+      const theMessage = await Message.findOne({ _id: ObjectId(_id) });
+      console.log('theMessage', theMessage);
+
+      const alreadyVote = theMessage.votes.find(v => v.userId === user._id);
+      if (alreadyVote) {
+        return theMessage;
+      }
+      theMessage.votes.push({ userId: user._id });
+      await theMessage.save();
+      console.log('theMessage', theMessage);
+
+      return theMessage;
+    },
+
+    removeVote: async (root, { _id }, { Message, user }) => {
+      const theMessage = await Message.findOne({ _id: ObjectId(_id) });
+      console.log('theMessage', theMessage);
+
+      // const alreadyVote = theMessage.votes.find(v => v.userId === user._id);
+      // if (alreadyVote) {
+      //   return theMessage;
+      // }
+      const idx = theMessage.votes.findIndex(v => v.userId === user._id);
+      theMessage.votes.splice(idx, 1);
+      await theMessage.save();
+      console.log('theMessage', theMessage);
+      return theMessage;
+    },
   },
 
   Subscription: {

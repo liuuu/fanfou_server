@@ -54,6 +54,9 @@
 // };
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
+
+const { ObjectId } = mongoose.Types;
 
 const secrets = {
   JWT_SECRET: '123456',
@@ -64,6 +67,11 @@ export default {
     allUsers: async (root, agrs, { User }) => {
       const allUsers = await User.find();
       return allUsers;
+    },
+    user: async (root, { id }, { User }) => {
+      const user = await User.findOne({ _id: ObjectId(id) });
+      console.log('user', user);
+      return user;
     },
   },
   Mutation: {

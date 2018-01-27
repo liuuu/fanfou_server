@@ -1,10 +1,18 @@
 export default `
+
+  type FolUser {
+    _id: String
+  }
+
  type User {
    _id: String
    name: String
    email: String
    token: String
    num: Int
+   followers:[FolUser]
+   followings:[FolUser]
+  
  }
 
  type LoginResponse {
@@ -15,6 +23,7 @@ export default `
 
  type Query {
    allUsers:[User]
+   user(id:String): User
  }
 
 
