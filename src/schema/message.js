@@ -9,7 +9,7 @@ export default `
 
 
  type Query {
-   allMessages:[Message]
+   allMessages(skip: Int!): [Message]
    message(id: String) : Message
  }
 
@@ -23,5 +23,9 @@ export default `
 
  type Mutation {
     createMessage(content: String!): MessageResponse
+  }
+
+   type Subscription {
+    newMessageAdded(userId: String!) : Message
   }
 `;
