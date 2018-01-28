@@ -25,8 +25,8 @@ export default {
 
       return messages;
     },
-    message: async (root, { id }, { User, Message }) => {
-      const theMessage = await Message.findOne({ _id: ObjectId(id) });
+    message: async (root, { _id }, { User, Message }) => {
+      const theMessage = await Message.findOne({ _id: ObjectId(_id) });
       theMessage._id = theMessage._id.toString();
       console.log('theMessage', theMessage);
 
