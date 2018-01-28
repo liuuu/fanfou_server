@@ -12,6 +12,8 @@ export default `
    num: Int
    followers:[FolUser]
    followings:[FolUser]
+   hisMessages:[Message]
+   messageCount: Int
   
  }
 

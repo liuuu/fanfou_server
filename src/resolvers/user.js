@@ -55,6 +55,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
+import message from '../schema/message';
 
 const { ObjectId } = mongoose.Types;
 
@@ -68,9 +69,21 @@ export default {
       const allUsers = await User.find();
       return allUsers;
     },
-    user: async (root, { id }, { User }) => {
+    user: async (root, { id }, { User, Message }) => {
       const user = await User.findOne({ _id: ObjectId(id) });
       console.log('user', user);
+      console.log('id', id);
+
+      const hisMessages = await Message.find({ userId: id })
+        .sort({
+          createdAt: -1,
+        })
+        .limit(10);
+      // https://stackoverflow.com/questions/10811887/how-to-get-all-count-of-mongoose-model
+      const messageCount = await Message.count({ userId: id });
+
+      user.hisMessages = hisMessages;
+      user.messageCount = messageCount;
       return user;
     },
   },
