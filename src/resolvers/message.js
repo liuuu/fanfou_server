@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import { withFilter, PubSub } from 'graphql-subscriptions';
 import { requireAuth } from '../permission';
+import message from '../schema/message';
 
 const pubsub = new PubSub();
 const NEW_MESSAGE = 'NEW_MESSAGE';
@@ -42,6 +43,7 @@ export default {
         content,
         votes: [],
         owner: user.name,
+        avatarUrl: user.avatarUrl,
       }).save();
 
       console.log('newMessage', newMessage);
@@ -59,6 +61,24 @@ export default {
         message: newMessage,
       };
     }),
+    removeMessage: async (root, { _id }, { Message, user }) => {
+      // find me message and owner even though fe
+      const theMessage = await Message.findOne({ _id: ObjectId(_id) });
+      const isOwner = theMessage.userId === user._id;
+      if (!isOwner) {
+        return {
+          ok: false,
+          error: '你不是主人',
+        };
+      }
+      // how to effectively delete a item form mongodb
+      const result = await Message.findOneAndRemove({ _id: ObjectId(_id) });
+      return {
+        ok: true,
+        error: false,
+        message: result,
+      };
+    },
 
     createVote: async (root, { _id }, { Message, user }) => {
       // https://stackoverflow.com/questions/33049707/push-items-into-mongo-array-via-mongoose

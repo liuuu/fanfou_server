@@ -14,6 +14,7 @@ const UserSchema = new Schema(
     num: Number,
     followers: [FolSchema],
     followings: [FolSchema],
+    avatarUrl: String,
   },
   { timestamps: Date },
 );

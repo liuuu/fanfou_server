@@ -103,13 +103,15 @@ export default {
 
       const hash = await bcrypt.hash(password, 10);
 
-      const randomNum = Math.floor(Math.random() * 10);
+      const randomNum = Math.floor(Math.random() * 1000);
+      const avatarUrl = `https://picsum.photos/300/300?image=${randomNum}`;
 
       const newUser = await new User({
         name,
         email,
         password: hash,
         num: randomNum,
+        avatarUrl,
       }).save();
 
       newUser.token = jwt.sign(
@@ -118,6 +120,7 @@ export default {
           name,
           email,
           num: newUser.num,
+          avatarUrl: newUser.avatarUrl,
         },
         secrets.JWT_SECRET,
       );
@@ -154,6 +157,7 @@ export default {
           name: user.name,
           email,
           num: user.num,
+          avatarUrl: user.avatarUrl,
         },
         secrets.JWT_SECRET,
       );

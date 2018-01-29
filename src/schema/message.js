@@ -10,6 +10,7 @@ export default `
   userId: String!
   owner: String!
   votes:[Vote]
+  avatarUrl: String
  }
 
 
@@ -29,6 +30,7 @@ export default `
 
  type Mutation {
     createMessage(content: String!): MessageResponse
+    removeMessage(_id:String):MessageResponse
     createVote(_id:String!): Message
     removeVote(_id:String!): Message
   }

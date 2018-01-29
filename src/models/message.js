@@ -12,6 +12,7 @@ const MessageSchema = new Schema(
     userId: String,
     owner: String,
     votes: [VoteSchema],
+    avatarUrl: String,
   },
   { timestamps: Date },
 );

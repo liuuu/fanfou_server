@@ -13,8 +13,8 @@ export default `
    followers:[FolUser]
    followings:[FolUser]
    hisMessages:[Message]
-   messageCount: Int
-  
+   messageCount: Int 
+   avatarUrl: String  
  }
 
  type LoginResponse {
