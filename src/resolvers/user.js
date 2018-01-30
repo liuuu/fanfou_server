@@ -79,11 +79,14 @@ export default {
           createdAt: -1,
         })
         .limit(10);
+      // PersonModel.find({ favouriteFoods: { "$in" : ["sushi"]} }, ...);
+      const likedMessagesCount = await Message.find({ 'votes.userId': id });
       // https://stackoverflow.com/questions/10811887/how-to-get-all-count-of-mongoose-model
       const messageCount = await Message.count({ userId: id });
 
       user.hisMessages = hisMessages;
       user.messageCount = messageCount;
+      user.likedMessagesCount = likedMessagesCount.length;
       return user;
     },
   },

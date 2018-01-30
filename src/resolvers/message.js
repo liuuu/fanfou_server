@@ -12,11 +12,19 @@ const ObjectId = mongoose.Types.ObjectId;
 
 export default {
   Query: {
-    allMessages: async (root, { skip }, { User, Message }) => {
-      const messages = await Message.find({})
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(2);
+    allMessages: async (root, { skip, userId }, { User, Message }) => {
+      let messages;
+      if (userId) {
+        messages = await Message.find({ userId })
+          .sort({ createdAt: -1 })
+          .skip(skip)
+          .limit(2);
+      } else {
+        messages = await Message.find({})
+          .sort({ createdAt: -1 })
+          .skip(skip)
+          .limit(2);
+      }
 
       console.log('messages', messages);
 

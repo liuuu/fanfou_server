@@ -15,6 +15,7 @@ export default `
    hisMessages:[Message]
    messageCount: Int 
    avatarUrl: String  
+   likedMessagesCount: Int
  }
 
  type LoginResponse {

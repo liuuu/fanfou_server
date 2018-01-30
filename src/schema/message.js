@@ -22,7 +22,7 @@ export default `
  }
 
   type Query {
-   allMessages(skip: Int!): [Message]
+   allMessages(skip: Int!, userId: String): [Message]
    message(_id: String!) : Message
  }
 
