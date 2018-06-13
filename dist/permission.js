@@ -1,0 +1,31 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.requireAuth = void 0;
+
+const createResolver = resolver => {
+  const baseResolver = resolver;
+
+  baseResolver.createResolver = childResolver => {
+    const newResolver = async (parent, args, context, info) => {
+      await resolver(parent, args, context, info);
+      return childResolver(parent, args, context, info);
+    };
+
+    return createResolver(newResolver);
+  };
+
+  return baseResolver;
+}; // requiresAuth
+
+
+const requireAuth = createResolver((parent, args, {
+  user
+}) => {
+  if (!user || !user._id) {
+    throw new Error('Not authenticated');
+  }
+});
+exports.requireAuth = requireAuth;

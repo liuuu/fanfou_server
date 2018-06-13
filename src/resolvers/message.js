@@ -18,12 +18,12 @@ export default {
         messages = await Message.find({ userId })
           .sort({ createdAt: -1 })
           .skip(skip)
-          .limit(2);
+          .limit(6);
       } else {
         messages = await Message.find({})
           .sort({ createdAt: -1 })
           .skip(skip)
-          .limit(2);
+          .limit(6);
       }
 
       console.log('messages', messages);
@@ -128,7 +128,7 @@ export default {
         (payload, args) => {
           console.log('payload', payload);
           console.log('args', args);
-
+          if (!payload) return null;
           return payload.newMessageAdded.userId !== args.userId;
         },
       ),

@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec babel-node ./src/index.js"
+    "start": "nodemon --exec babel-node ./src/index.js",
+    "build": "babel src -d dist",
+    "serve": "babel-node ./.src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -26,11 +28,11 @@
     "subscriptions-transport-ws": "^0.9.5"
   },
   "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.38",
     "@babel/core": "^7.0.0-beta.38",
     "@babel/node": "^7.0.0-beta.38",
     "@babel/preset-env": "^7.0.0-beta.38",
     "@babel/preset-stage-0": "^7.0.0-beta.38",
-    "babel-preset-stage-0": "^6.24.1",
     "eslint": "^4.16.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-airbnb-base": "^12.1.0",

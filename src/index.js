@@ -55,8 +55,8 @@ const schema = makeExecutableSchema({
   resolvers,
 });
 
-// const dataUri = 'mongodb://test:test@ds046267.mlab.com:46267/testfanfou';
-const localDataUri = 'mongodb://localhost/testninja22';
+const localDataUri = 'mongodb://test:test@ds046267.mlab.com:46267/testfanfou';
+// const localDataUri = 'mongodb://localhost/testninja22';
 
 mongoose.connect(localDataUri);
 
@@ -110,7 +110,9 @@ const db = mongoose.connection
           subscribe,
           schema,
           onConnect: (connectionParams, webSocket) => {
-            console.log('on connect');
+            const { xtoken } = connectionParams;
+            // console.log('xtoken', xtoken);
+            // I think cause the frontend protect
           },
 
           onOperationDone: (webSocket) => {
